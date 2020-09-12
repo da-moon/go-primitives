@@ -1,12 +1,13 @@
 package primitives_test
 
 import (
-	primitives "github.com/da-moon/go-primitives"
-	assert "github.com/stretchr/testify/assert"
 	"reflect"
 	"runtime"
 	"testing"
 	"unsafe"
+
+	primitives "github.com/da-moon/go-primitives"
+	assert "github.com/stretchr/testify/assert"
 )
 
 func TestByteSliceFromString(t *testing.T) {

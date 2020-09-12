@@ -2,6 +2,7 @@ package primitives
 
 import (
 	"fmt"
+
 	"github.com/modern-go/reflect2"
 	"github.com/palantir/stacktrace"
 )

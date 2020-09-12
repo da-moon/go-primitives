@@ -18,6 +18,8 @@ import (
 	"unicode"
 	"unicode/utf8"
 	"unsafe"
+
+	stacktrace "github.com/palantir/stacktrace"
 )
 
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
@@ -362,7 +364,7 @@ func Unique() string {
 }
 
 // GetSizeString ...
-func GetSizeString(size, unit int) string {
+func IntToFileSizeString(size, unit int) string {
 	result := strconv.Itoa(size)
 	if unit < Ki {
 		if unit*size >= Ki {
@@ -377,4 +379,41 @@ func GetSizeString(size, unit int) string {
 		result = result + " Megabytes"
 	}
 	return result
+}
+
+// FileSizeStringToInt ...
+func FileSizeStringToInt(s string) (int64, error) {
+	ss := []byte(strings.ToUpper(s))
+	if !(strings.Contains(string(ss), "K") || strings.Contains(string(ss), "KB") ||
+		strings.Contains(string(ss), "M") || strings.Contains(string(ss), "MB") ||
+		strings.Contains(string(ss), "G") || strings.Contains(string(ss), "GB") ||
+		strings.Contains(string(ss), "T") || strings.Contains(string(ss), "TB")) {
+		return -1, stacktrace.NewError("wrong format for input string")
+	}
+
+	var unit int64 = 1
+	p, _ := strconv.Atoi(string(ss[:len(ss)-1]))
+	unitstr := string(ss[len(ss)-1])
+
+	if ss[len(ss)-1] == 'B' {
+		p, _ = strconv.Atoi(string(ss[:len(ss)-2]))
+		unitstr = string(ss[len(ss)-2:])
+	}
+
+	switch unitstr {
+	default:
+		fallthrough
+	case "T", "TB":
+		unit *= 1024
+		fallthrough
+	case "G", "GB":
+		unit *= 1024
+		fallthrough
+	case "M", "MB":
+		unit *= 1024
+		fallthrough
+	case "K", "KB":
+		unit *= 1024
+	}
+	return int64(p) * unit, nil
 }

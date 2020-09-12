@@ -1,9 +1,10 @@
 package primitives_test
 
 import (
+	"testing"
+
 	primitives "github.com/da-moon/go-primitives"
 	assert "github.com/stretchr/testify/assert"
-	"testing"
 )
 
 // TestIsInt tests the IsInt function
