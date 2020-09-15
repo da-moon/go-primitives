@@ -218,9 +218,8 @@ func Indexi(s []string, t string) int {
 	if len(s) == 0 || len(t) == 0 {
 		return -1
 	}
-
 	for i, v := range s {
-		if strings.ToLower(v) == strings.ToLower(t) {
+		if strings.EqualFold(strings.ToLower(v), strings.ToLower(t)) {
 			return i
 		}
 	}
@@ -320,7 +319,7 @@ func EqSlices(a, b interface{}) bool {
 		return false
 	}
 
-	if fmt.Sprintf("%T", sl1.Interface()) != fmt.Sprintf("%T", sl1.Interface()) {
+	if fmt.Sprintf("%T", sl1.Interface()) != fmt.Sprintf("%T", sl2.Interface()) {
 		return false
 	}
 

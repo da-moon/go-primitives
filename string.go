@@ -22,7 +22,6 @@ import (
 	stacktrace "github.com/palantir/stacktrace"
 )
 
-var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 var camelingRegex = regexp.MustCompile("[0-9A-Za-z]+")
 
 // HasPrefix ...
@@ -303,8 +302,8 @@ func IsRGB(s string) bool {
 
 // IsCreditCard returns true if the provided string is a valid credit card
 func IsCreditCard(s string) bool {
-	rxCreditCard := regexp.MustCompile("^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$")
-	r, _ := regexp.Compile("[^0-9]+")
+	rxCreditCard := regexp.MustCompile(`^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$`)
+	r, _ := regexp.Compile(`[^0-9]+`)
 	sanitized := r.ReplaceAll([]byte(s), []byte(""))
 
 	if !rxCreditCard.MatchString(string(sanitized)) {
@@ -331,12 +330,7 @@ func IsCreditCard(s string) bool {
 		}
 		shouldDouble = !shouldDouble
 	}
-
-	if sum%10 == 0 {
-		return true
-	}
-
-	return false
+	return sum%10 == 0
 }
 
 // IsOnlyDigits returns true if the provided string is composed only by numbers
