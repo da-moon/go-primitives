@@ -7,4 +7,5 @@ require (
 	github.com/modern-go/reflect2 v1.0.1
 	github.com/palantir/stacktrace v0.0.0-20161112013806-78658fd2d177
 	github.com/stretchr/testify v1.6.1
+	mvdan.cc/gofumpt v0.0.0-20200802201014-ab5a8192947d // indirect
 )
